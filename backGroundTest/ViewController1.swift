@@ -8,22 +8,33 @@
 import UIKit
 
 class ViewController1: UIViewController {
-
+    @IBOutlet weak var cv: UICollectionView!
+    var arr = ["f1","f2","f3","f4"]
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let cvf = UICollectionViewFlowLayout()
+        cvf.itemSize = CGSize(width: 200, height: 200)
+        cvf.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        cv.collectionViewLayout = cvf
         // Do any additional setup after loading the view.
     }
-    
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+}
+extension ViewController1:UICollectionViewDelegate,UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return arr.count
     }
-    */
-
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
+        cell.img.image = UIImage(named: arr[indexPath.row])
+        return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        UserDefaults.standard.setValue(arr[indexPath.row], forKey: "img")
+    }
+    
+   
 }
